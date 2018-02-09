@@ -22,6 +22,13 @@
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
   <item>
+    <path>civicrm/civirules/actionprovider/config</path>
+    <page_callback>CRM_Civirules_Form_RuleActionProviderConfig</page_callback>
+    <title>RuleAction</title>
+    <access_arguments>access CiviCRM</access_arguments>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
+  <item>
     <path>civicrm/civirule/form/condition/datacomparison</path>
     <page_callback>CRM_CivirulesConditions_Form_ValueComparison</page_callback>
     <title>Value comparison</title>

@@ -378,13 +378,18 @@ class CRM_Civirules_Form_Rule extends CRM_Core_Form {
       'is_active' => 1,
       'rule_id' => $this->ruleId);
     $ruleActions = CRM_Civirules_BAO_RuleAction::getValues($actionParams);
+		$actionsProvider = \Civi\ActionProvider\Provider::getInstance();
+		
     foreach ($ruleActions as $ruleActionId => $ruleAction) {
-      $actionClass = CRM_Civirules_BAO_Action::getActionObjectById($ruleAction['action_id']);
-      $actionClass->setRuleActionData($ruleAction);
+      /*$actionClass = CRM_Civirules_BAO_Action::getActionObjectById($ruleAction['action_id']);
+      $actionClass->setRuleActionData($ruleAction);*/
+      $action = $actionsProvider->getActionByName($ruleAction['action_name']);
+			
+			
 
-      $ruleActions[$ruleActionId]['label'] = CRM_Civirules_BAO_Action::getActionLabelWithId($ruleAction['action_id']);
+      $ruleActions[$ruleActionId]['label'] = $action->getTitle();
       $ruleActions[$ruleActionId]['actions'] = $this->setRuleActionActions($ruleActionId, $actionClass);
-      $ruleActions[$ruleActionId]['formattedConditionParams'] = $actionClass->userFriendlyConditionParams();
+      $ruleActions[$ruleActionId]['formattedConditionParams'] = '';
 
       $ruleActions[$ruleActionId]['formattedDelay'] = '';
       if (!empty($ruleAction['delay'])) {
@@ -425,14 +430,14 @@ class CRM_Civirules_Form_Rule extends CRM_Core_Form {
    * @return array
    * @access protected
    */
-  protected function setRuleActionActions($ruleActionId, CRM_Civirules_Action $action) {
+  protected function setRuleActionActions($ruleActionId, $action) {
     $actionActions = array();
 
     $delaySettingsUrl = CRM_Utils_System::url('civicrm/civirule/form/rule_action', 'reset=1&action=update&rid='
       .$this->ruleId.'&id='.$ruleActionId);
     $actionActions[] = '<a class="action-item" title="Edit delay settings" href="'.$delaySettingsUrl.'">'.ts('Edit delay').'</a>';
 
-    $editUrl = $action->getExtraDataInputUrl($ruleActionId);
+    $editUrl = CRM_Utils_System::url('civicrm/civirules/actionprovider/config', 'rule_action_id='.$ruleActionId);
     if (!empty($editUrl)) {
       $actionActions[] = '<a class="action-item" title="Edit" href="'.$editUrl.'">'.ts('Edit').'</a>';
     }

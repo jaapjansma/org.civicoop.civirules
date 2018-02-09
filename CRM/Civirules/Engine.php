@@ -38,6 +38,7 @@ class CRM_Civirules_Engine {
       $context['file'] = $e->getFile();
       $context['exception_message'] = $e->getMessage();
       CRM_Civirules_Utils_LoggerFactory::logError("Failed to execute rule",  $message, $triggerData, $context);
+			throw $e;
     }
     return false;
   }
