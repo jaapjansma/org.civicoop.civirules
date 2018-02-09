@@ -86,7 +86,7 @@ class CRM_Civirules_Form_RuleAction extends CRM_Core_Form {
         $this->ruleAction = new CRM_Civirules_BAO_RuleAction();
       }
       $this->ruleAction->action_id = $this->_submitValues['rule_action_select'];
-      $saveParams['action_id'] = $this->_submitValues['rule_action_select'];
+      $saveParams['action_name'] = $this->_submitValues['rule_action_select'];
     }
     if ($this->ruleActionId) {
       $saveParams['id'] = $this->ruleActionId;
@@ -107,8 +107,9 @@ class CRM_Civirules_Form_RuleAction extends CRM_Core_Form {
     $session->setStatus('Action added to CiviRule '.CRM_Civirules_BAO_Rule::getRuleLabelWithId($this->_submitValues['rule_id']),
       'Action added', 'success');
 
-    $action = CRM_Civirules_BAO_Action::getActionObjectById($this->ruleAction->action_id, true);
-    $redirectUrl = $action->getExtraDataInputUrl($ruleAction['id']);
+    //$action = CRM_Civirules_BAO_Action::getActionObjectById($this->ruleAction->action_id, true);
+    //$redirectUrl = $action->getExtraDataInputUrl($ruleAction['id']);
+    $redirectUrl = CRM_Utils_System::url('civicrm/civirules/actionprovider/config', 'rule_action_id='.$ruleAction['id']);
     if (empty($redirectUrl) || $this->ruleActionId) {
       $redirectUrl = CRM_Utils_System::url('civicrm/civirule/form/rule', 'action=update&id=' . $this->_submitValues['rule_id'], TRUE);
     } elseif (!$this->ruleActionId) {
@@ -194,12 +195,12 @@ class CRM_Civirules_Form_RuleAction extends CRM_Core_Form {
    * @access public
    */
   public function addRules() {
-    if (empty($this->ruleActionId)) {
+    /*if (empty($this->ruleActionId)) {
       $this->addFormRule(array(
         'CRM_Civirules_Form_RuleAction',
         'validateRuleAction'
       ));
-    }
+    }*/
     $this->addFormRule(array(
       'CRM_Civirules_Form_RuleAction',
       'validateDelay'

@@ -38,6 +38,7 @@ class CRM_Civirules_Engine {
       $context['file'] = $e->getFile();
       $context['exception_message'] = $e->getMessage();
       CRM_Civirules_Utils_LoggerFactory::logError("Failed to execute rule",  $message, $triggerData, $context);
+			throw $e;
     }
     return false;
   }
@@ -68,21 +69,38 @@ class CRM_Civirules_Engine {
    * @static
    */
   protected static function executeAction(CRM_Civirules_TriggerData_TriggerData $triggerData, $ruleAction) {
-    $object = CRM_Civirules_BAO_Action::getActionObjectById($ruleAction['action_id'], true);
-    if (!$object) {
+    //$object = CRM_Civirules_BAO_Action::getActionObjectById($ruleAction['action_id'], true);
+    $actionProvider = \Civi\ActionProvider\Provider::getInstance();
+		$action = $actionProvider->getActionByName($ruleAction['action_name']);
+    if (!$action) {
       return;
     }
 
-    $object->setRuleActionData($ruleAction);
+    //$object->setRuleActionData($ruleAction);
+    // Set the config data
+    $configurationData = unserialize($ruleAction['action_params']);
+		$configuration = new \Civi\ActionProvider\Parameter\ParameterBag();
+		foreach($action->getConfigurationSpecification() as $config_field) {
+  		if (isset($configurationData[$config_field->getName()])) {
+  			$configuration->setParameter($config_field->getName(), $configurationData[$config_field->getName()]);
+			}
+		}
+		
+		// Set data from the trigger data.
+		$parameters = new \Civi\ActionProvider\Parameter\ParameterBag();
+		$parameters->setParameter('contact_id', $triggerData->getContactId());
+		// do something about the rest of the trigger data
+		$action->setConfiguration($configuration);
+		$action->execute($parameters);
 
     //determine if the action should be executed with a delay
-    $delay = self::getActionDelay($ruleAction, $object, $triggerData);
+    /*$delay = self::getActionDelay($ruleAction, $, $triggerData);
     if ($delay instanceof DateTime) {
       self::delayAction($delay, $object, $triggerData);
     } else {
       //there is no delay so process action immediatly
       $object->processAction($triggerData);
-    }
+    }*/
   }
 
   /**

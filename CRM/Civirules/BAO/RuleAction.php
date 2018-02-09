@@ -31,6 +31,8 @@ class CRM_Civirules_BAO_RuleAction extends CRM_Civirules_DAO_RuleAction {
       self::storeValues($ruleAction, $row);
       if (!empty($row['action_id'])) {
         $result[$row['id']] = $row;
+			} elseif (!empty($row['action_name'])) {
+				$result[$row['id']] = $row;
       } else {
         //invalid ruleAction because no there is no linked action
         CRM_Civirules_BAO_RuleAction::deleteWithId($row['id']);

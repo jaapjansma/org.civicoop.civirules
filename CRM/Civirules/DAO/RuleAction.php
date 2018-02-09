@@ -42,6 +42,10 @@ class CRM_Civirules_DAO_RuleAction extends CRM_Core_DAO {
           'name' => 'action_id',
           'type' => CRM_Utils_Type::T_INT
         ),
+        'action_name' => array(
+          'name' => 'action_name',
+          'type' => CRM_Utils_Type::T_STRING
+        ),
         'action_params' => array(
           'name' => 'action_params',
           'type' => CRM_Utils_Type::T_TEXT
@@ -75,6 +79,7 @@ class CRM_Civirules_DAO_RuleAction extends CRM_Core_DAO {
         'id' => 'id',
         'rule_id' => 'rule_id',
         'action_id' => 'action_id',
+        'action_name' => 'action_name',
         'action_params' => 'action_params',
         'delay' => 'delay',
         'ignore_condition_with_delay' => 'ignore_condition_with_delay',

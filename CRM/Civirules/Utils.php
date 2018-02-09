@@ -118,10 +118,15 @@ class CRM_Civirules_Utils {
    */
   public static function buildActionList() {
     $actionList = array();
-    $actions = CRM_Civirules_BAO_Action::getValues(array());
-    foreach ($actions as $actionId => $action) {
+    //$actions = CRM_Civirules_BAO_Action::getValues(array());
+    $actionProvider = \Civi\ActionProvider\Provider::getInstance();
+    $actions = $actionProvider->getActions();
+		foreach($actions as $action) {
+			$actionList[$action->getName()] = $action->getTitle();
+		}
+    /*foreach ($actions as $actionId => $action) {
       $actionList[$actionId] = $action['label'];
-    }
+    }*/
     return $actionList;
   }
 
