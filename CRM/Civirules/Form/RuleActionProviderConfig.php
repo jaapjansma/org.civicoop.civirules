@@ -37,7 +37,7 @@ class CRM_Civirules_Form_RuleActionProviderConfig extends CRM_Core_Form {
       throw new Exception('Civirules could not find ruleAction (Form)');
     }
 
-		$actionProvider = \Civi\ActionProvider\Provider::getInstance();
+		$actionProvider = civirules_get_action_provider();
 		$this->action = $actionProvider->getActionByName($this->ruleAction->action_name); 
     if (!$this->action) {
       throw new Exception('Civirules could not find action');

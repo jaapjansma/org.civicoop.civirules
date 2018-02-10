@@ -140,6 +140,18 @@ abstract class CRM_Civirules_TriggerData_TriggerData {
     }
     return array();
   }
+	
+	/**
+	 * Returns all the custom field data in this trigger.
+	 * 
+	 * Format of the array is:
+	 *   [custom_field_id][record_id] => value
+	 * 
+	 * @return array
+	 */
+	public function getCustomFieldData() {
+		return $this->custom_data;
+	}
 
   /**
    * Returns value of a custom field.
@@ -155,4 +167,8 @@ abstract class CRM_Civirules_TriggerData_TriggerData {
     }
     return null;
   }
+	
+	public function getAllData() {
+		return $this->entity_data;
+	}
 }

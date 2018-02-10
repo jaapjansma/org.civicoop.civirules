@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS civirule_rule_action (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   rule_id INT UNSIGNED NULL,
   action_id INT UNSIGNED NULL,
+  action_name VARCHAR(255) NOT NULL DEFAULT '',
   action_params TEXT NULL,
   delay TEXT NULL,
   ignore_condition_with_delay TINYINT NULL default 0,

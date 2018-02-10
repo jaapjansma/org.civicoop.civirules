@@ -9,7 +9,7 @@ use Civi\Test\TransactionalInterface;
  * 
  * @group headless
  */
-class CRM_Civirules_ActionEngine_ActionEngineTest extends \PHPUnit_Framework_TestCase implements HeadlessInterface, TransactionalInterface {
+class CRM_Civirules_ActionEngine_RuleActionEngineTest extends \PHPUnit_Framework_TestCase implements HeadlessInterface, TransactionalInterface {
 	
 	protected $contactId;
   protected $groupId;

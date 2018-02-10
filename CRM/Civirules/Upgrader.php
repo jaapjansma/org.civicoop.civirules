@@ -253,4 +253,9 @@ class CRM_Civirules_Upgrader extends CRM_Civirules_Upgrader_Base {
 		");
 		return TRUE;
 	}
+	
+	public function upgrade_1023() {
+		CRM_Core_DAO::executeQuery("ALTER TABLE `civirule_rule_action` ADD `action_name` VARCHAR(255) NOT NULL DEFAULT '' AFTER `rule_id`;");
+		return TRUE;
+	}
 }

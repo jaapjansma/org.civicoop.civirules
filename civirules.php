@@ -9,6 +9,18 @@ if (!class_exists("\\Psr\\Log\\LogLevel")) {
 }
 
 /**
+ * Returns the action provider container. This container only exists 
+ * if the action-provider extension is installed.
+ */
+function civirules_get_action_provider() {
+	$civi_container = \Civi::container();
+	if ($civi_container->has('action_provider')) {
+		return $civi_container->get('action_provider')->getProviderByContext('civirules');
+	}
+	return false;
+}
+
+/**
  * Implementation of hook_civicrm_config
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
