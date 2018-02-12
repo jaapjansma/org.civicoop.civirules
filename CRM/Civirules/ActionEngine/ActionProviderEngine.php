@@ -26,7 +26,7 @@ use \Civi\ActionProvider\Provider;
 		
 		if (isset($ruleAction['action_params'])) {
 			$configurationData = json_decode($ruleAction['action_params'], true);
-			$configuration = new ParameterBag();
+			$configuration = $actionProvider->createParameterBag();
 			foreach($this->action->getConfigurationSpecification() as $config_field) {
 	  		if (isset($configurationData[$config_field->getName()])) {
 	  			$configuration->setParameter($config_field->getName(), $configurationData[$config_field->getName()]);
@@ -50,7 +50,8 @@ use \Civi\ActionProvider\Provider;
 	 * @return ParameterBag
 	 */
 	protected function getParameterBag() {
-		$parameters = new ParameterBag();
+		$actionProvider = civirules_get_action_provider();
+		$parameters = $actionProvider->createParameterBag();
 		$parameters->setParameter('contact_id', $this->triggerData->getContactId());
 		
 		$data = $this->triggerData->getAllData();

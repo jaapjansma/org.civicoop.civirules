@@ -15,6 +15,9 @@ if (!class_exists("\\Psr\\Log\\LogLevel")) {
 function civirules_get_action_provider() {
 	$civi_container = \Civi::container();
 	if ($civi_container->has('action_provider')) {
+		if (!$civi_container->get('action_provider')->hasContext('civirules')) {
+			$civi_container->get('action_provider')->addProviderWithContext('civirules', new CRM_ActionProvider_CivirulesProvider());
+		}
 		return $civi_container->get('action_provider')->getProviderByContext('civirules');
 	}
 	return false;

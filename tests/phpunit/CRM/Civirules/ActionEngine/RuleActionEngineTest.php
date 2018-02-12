@@ -60,7 +60,7 @@ class CRM_Civirules_ActionEngine_RuleActionEngineTest extends \PHPUnit_Framework
 		$triggerData = new CRM_Civirules_TriggerData_Post('Individual', $contact['id'], $contact);
 		
 		$actionEngine = CRM_Civirules_ActionEngine_Factory::getEngine($ruleAction, $triggerData);
-		$this->assertInstanceOf('CRM_Civirules_ActionEngine_RuleActionEngine', $actionEngine, 'Could not find valud engine for rule_action');
+		$this->assertInstanceOf('CRM_Civirules_ActionEngine_RuleActionEngine', $actionEngine, 'Could not find valid engine for rule_action');
 		$actionEngine->execute();
 		// Now test whether the contact is added to the group
 		$groupContactParams = array(

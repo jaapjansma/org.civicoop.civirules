@@ -2,7 +2,18 @@
 
 class CRM_Civirules_ActionEngine_Factory {
 	
+	/**
+	 * @var array 
+	 *   List of al instanciated engines. Each instance is stored by its id or name as the key
+	 *   in the array.
+	 */
 	private static $instances = array();
+	
+	/**
+	 * @var array
+	 *   The cached version of the action list.
+	 */
+	private static $actionlist = null;
 	
 	/**
 	 * Returns the engine for executing actions.
@@ -33,22 +44,25 @@ class CRM_Civirules_ActionEngine_Factory {
    * @static
    */
   public static function buildActionList() {
-    $actionList = array();
-    $actionProvider = civirules_get_action_provider();
-		if ($actionProvider) {
-    	$actions = $actionProvider->getActions();
-			foreach($actions as $action) {
-				$actionList[$action->getName()] = $action->getTitle();
+  	if (!self::$actionlist) {
+    	$actionList = array();
+    	$actionProvider = civirules_get_action_provider();
+			if ($actionProvider) {
+    		$actions = $actionProvider->getActions();
+				foreach($actions as $action) {
+					$actionList[$action->getName()] = $action->getTitle();
+				}
 			}
+		
+			$actions = CRM_Civirules_BAO_Action::getValues(array());
+    	foreach ($actions as $actionId => $action) {
+      	$actionList[$actionId] = $action['label'];
+    	}
+		
+			asort($actionList);
+			self::$actionlist = $actionList;
 		}
-		
-		$actions = CRM_Civirules_BAO_Action::getValues(array());
-    foreach ($actions as $actionId => $action) {
-      $actionList[$actionId] = $action['label'];
-    }
-		
-		asort($actionList);
-    return $actionList;
+    return self::$actionlist;
   }
 	
 }
